@@ -1,4 +1,4 @@
-# From BlackDark/agent-presets. Pin a concrete stable release; Renovate bumps it (see renovate.json).
+# From BlackDark/agent-presets. Pin a concrete stable release; Renovate bumps it (custom manager in templates/renovate.template.json5).
 [toolchain]
 channel = "<x.y.z>"
 components = ["rustfmt", "clippy"]

@@ -21,6 +21,7 @@ Branches, read only when the task touches them:
 - New dependency outside this stack: ask first, state why in the commit message.
 - Generated files (API clients, bindings, compiled i18n): regenerate, never hand-edit; CI fails on diff.
 - Validate every boundary at runtime (requests, config, files, env, generated API responses): Zod.
+- Every repo has `.github/renovate.json5` from [templates/renovate.template.json5](../templates/renovate.template.json5).
 - No secrets in the repo. No telemetry or tracking unless asked.
 
 ## Tool installation
@@ -33,7 +34,7 @@ Branches, read only when the task touches them:
 - CI installs from the same files. Personal overrides: `mise.local.toml` (gitignored).
 - Versions change through Renovate PRs or an explicit, mentioned change.
 
-Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.toml](../snippets/rust-toolchain.toml), [snippets/renovate.json](../snippets/renovate.json).
+Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.toml](../snippets/rust-toolchain.toml).
 
 ## Frontend
 
@@ -75,4 +76,4 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - Server apps: **OCI image** on GHCR (amd64 + arm64, native runners) from [snippets/docker-release.yml](../snippets/docker-release.yml); run with **Podman Quadlets** or Compose. Host-managing apps: one binary + systemd units.
 - Releases: version lives in the version file (`package.json`, `Cargo.toml`); tag `v<version>` starts `release.yml`; GitHub release with generated notes.
 - Docs site: **Zensical** on GitHub Pages **(watch)**.
-- Repo texts: [templates/AGENTS.template.md](../templates/AGENTS.template.md), [templates/README.template.md](../templates/README.template.md).
+- Repo texts: [templates/AGENTS.template.md](../templates/AGENTS.template.md), [templates/README.template.md](../templates/README.template.md), [templates/renovate.template.json5](../templates/renovate.template.json5).

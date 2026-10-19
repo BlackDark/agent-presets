@@ -42,8 +42,9 @@ Same PR, only what the change touches:
 ## Git
 
 - Conventional Commits. One topic per PR.
+- Merge: rebase when the commits are logically separate, squash otherwise.
 - PR already merged → branch anew from `origin/main`, open a new PR.
-- <Merge method: squash. Force-push: `--force-with-lease` on own branches only.>
+- <Force-push: `--force-with-lease` on own branches only / never.>
 
 ## Boundaries
 
