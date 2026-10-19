@@ -19,3 +19,16 @@ jobs:
           bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.7/scripts/download-actionlint.bash) 1.7.7
           # snippets call ./.github/workflows/ci.yml, which exists only in the target repo
           ./actionlint -color -ignore "could not read reusable workflow file" .github/workflows/*.yml snippets/*.yml
+
+  renovate-template:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: renovate-config-validator
+        # Validated as a repo config, the way target repos load it
+        run: |
+          mkdir -p "$RUNNER_TEMP/repo/.github"
+          cp templates/renovate.template.json5 "$RUNNER_TEMP/repo/.github/renovate.json5"
+          cd "$RUNNER_TEMP/repo"
+          npx --yes --package renovate@42.99.0 -- renovate-config-validator --strict

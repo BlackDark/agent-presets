@@ -37,7 +37,8 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 | [`templates/code-review.prompt.md`](templates/code-review.prompt.md) | Prompt for a thorough, scenario-backed code review |
 | [`snippets/ci.yml`](snippets/ci.yml) | CI header: draft PRs skip, outdated runs cancel, `mise run check` |
 | [`snippets/docker-release.yml`](snippets/docker-release.yml) | Tag → multi-arch image on GHCR (native arm64) + GitHub release |
-| [`snippets/mise.toml`](snippets/mise.toml), [`rust-toolchain.toml`](snippets/rust-toolchain.toml), [`renovate.json`](snippets/renovate.json) | Pinned tools and automated updates |
+| [`templates/renovate.template.json5`](templates/renovate.template.json5) | `.github/renovate.json5` for every repo: weekly, automerge all but majors, grouped, Go tidy |
+| [`snippets/mise.toml`](snippets/mise.toml), [`rust-toolchain.toml`](snippets/rust-toolchain.toml) | Pinned tools |
 | [`skills/write-for-agents`](skills/write-for-agents/SKILL.md) | How to write AGENTS.md, skills and prompts that stay small and predictable |
 
 ## Principles
@@ -47,4 +48,4 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 - **Defaults, not dogma**: deviations are fine when the reason is written into the project's `AGENTS.md`.
 - **Cheap context**: agents load only the stack branch their task needs.
 
-Inspired by [firsttris/workflows](https://github.com/firsttris/workflows).
+Inspired by [firsttris/workflows](https://github.com/firsttris/workflows). License: [MIT](LICENSE).
