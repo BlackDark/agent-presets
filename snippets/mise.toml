@@ -1,0 +1,13 @@
+# Repo-local tools (from BlackDark/agent-presets). Replace <pin> with `mise latest <tool>`; never ranges or "latest".
+# Rust is not here: rust-toolchain.toml + rustup.
+[tools]
+node = "<pin>"
+pnpm = "<pin>"
+# bun = "<pin>"   # when Bun is the runtime
+# go = "<pin>"    # only if Go code exists
+
+# The one verify entry point for humans, agents and CI.
+[tasks.check]
+description = "Everything CI checks"
+run = "pnpm check"
+# Polyglot repo: depends = ["check:ts", "check:rust"] with one task per language.
