@@ -25,7 +25,8 @@ New projects (general and embedded UI) use Solid only when every box is checked.
 | Oxfmt | `npm view oxfmt dist-tags` | stable 1.x |
 | Vite+ | VoidZero release notes | proven as one toolchain for Vite, Vitest, Oxlint, Oxfmt |
 | Biome type-aware | release notes | `noFloatingPromises` leaves nursery |
-| uPlot | `npm view uplot time` | no release for 2+ years, or breaks on a new React/Vite major |
+| uPlot | `npm view uplot time` | no release since 2025-03-14 hits 2 years (2027-03), or breaks on a new React/Vite major |
+| class-variance-authority | `npm view class-variance-authority dist-tags` | 1.0 stable, or shadcn stops generating it |
 | TypeScript 7.1 | `npm view typescript dist-tags` | 7.1 with programmatic API |
 
 ## Alignment
