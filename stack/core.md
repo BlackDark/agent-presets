@@ -1,11 +1,13 @@
 # Tech stack: core
 
-Defaults for new projects and new parts. Take the first choice; deviate only for a reason and record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
+Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-10-19. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-10-20. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
+- UI inside firmware or a router image, or with a hard size budget → [embedded-ui.md](embedded-ui.md)
+- Svelte project (chosen or existing) → [svelte.md](svelte.md)
 - Desktop app (Tauri) → [desktop.md](desktop.md)
 - Browser extension → [browser-extension.md](browser-extension.md)
 - VS Code extension → [vscode-extension.md](vscode-extension.md)
@@ -38,7 +40,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 
 ## Frontend
 
-- Framework: **React**. Solid only after the Solid gate in [watch.md](watch.md).
+- Framework: **React**. Alternative: **Svelte 5** when it fits clearly better (small app, size matters, no TanStack Start needed): propose first. Solid only after the Solid gate in [watch.md](watch.md).
 - Full-stack/SSR: **TanStack Start**; server functions instead of a separate API when the app owns its backend. Pin the minor.
 - Routing **TanStack Router** (file-based). Server state **TanStack Query**. Tables/lists **TanStack Table** + **TanStack Virtual**.
 - Forms: controlled inputs; **TanStack Form** once a form grows; Zod schemas.
@@ -56,7 +58,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - TS HTTP: TanStack Start server routes; **Hono** for a standalone API.
 - Rust: **axum** on **tokio**, `tracing`, `serde`, `reqwest`, `thiserror` (libs), `anyhow` (bins).
 - Go: stdlib `net/http` router; a framework only for a reason.
-- Validation: **Zod 4**; **Valibot** or Zod Mini where bundle size matters.
+- Validation: **Zod 4**. Size budget (embedded UI, extension popup/content script) → **Valibot**, any framework.
 - DB: **SQLite** for one server, **PostgreSQL** when shared.
 - SQL: **Drizzle** (pin 0.45 while 1.0 is RC **(watch)**), **sqlx** for Rust. Migrations checked in and embedded in the binary.
 - Auth: single admin → own login (argon2id, session cookie, CSRF) + **SimpleWebAuthn** passkeys. Multi-user → **Better Auth**, kept current.

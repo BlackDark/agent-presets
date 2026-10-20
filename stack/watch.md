@@ -4,7 +4,7 @@ Report findings to the user; the stack changes only on their decision.
 
 ## Solid gate
 
-New projects use Solid only when every box is checked. Existing Solid 1.x code stays. 2026-10-18: Solid 2.0 is RC.
+New projects (general and embedded UI) use Solid only when every box is checked. Existing Solid 1.x code stays. 2026-10-18: Solid 2.0 is RC.
 
 - [ ] `solid-js@2` stable
 - [ ] Kobalte stable on Solid 2
