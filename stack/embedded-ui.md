@@ -17,7 +17,7 @@ Choosing anything but the first: propose to the user with the reason, record it 
   ```json
   [{ "path": "dist/**/*.{html,js,css,svg}", "limit": "50 KB", "gzip": true }]
   ```
-- Validation: Valibot ([core.md](core.md)).
+- Validation: size-budget rule in [core.md](core.md) (Zod Mini, Valibot for tiny budgets).
 - Only the shadcn-svelte components the UI uses; charts as own SVG; no icon font, only imported icons.
 - No CDN or external fonts: the device is often offline. System font stack.
 - Ship pre-compressed `*.gz`; the device server sends `Content-Encoding: gzip`. Flat file names, no deep routes: hash routing or one page.
