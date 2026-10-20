@@ -1,0 +1,48 @@
+// From templates/renovate.template.json5, trimmed to what this repo has: GitHub Actions and
+// pinned tool versions in workflows. Snippets are scanned too, so copies start current.
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:best-practices",
+    "customManagers:githubActionsVersions", // ACTIONLINT_VERSION, RENOVATE_VERSION in lint.yml
+    ":prConcurrentLimitNone",
+    ":prHourlyLimitNone",
+  ],
+  labels: ["dependencies"],
+  semanticCommits: "enabled",
+  timezone: "Europe/Berlin",
+
+  schedule: ["before 4am on monday"],
+  updateNotScheduled: false,
+  platformAutomerge: true,
+
+  separateMajorMinor: true,
+  separateMultipleMajor: true,
+
+  "github-actions": {
+    managerFilePatterns: ["/(^|/)snippets/.+\\.ya?ml$/"],
+  },
+
+  packageRules: [
+    {
+      description: "Group and automerge patch, pin and digest updates",
+      matchUpdateTypes: ["patch", "pin", "pinDigest", "digest"],
+      groupName: "all patch/pin/digest updates",
+      groupSlug: "all-patch-pin-digest",
+      automerge: true,
+    },
+    {
+      description: "Group and automerge minor updates",
+      matchUpdateTypes: ["minor"],
+      groupName: "all minor updates",
+      groupSlug: "all-minor",
+      automerge: true,
+    },
+    {
+      description: "Majors: one PR each, merged by hand",
+      matchUpdateTypes: ["major"],
+      addLabels: ["major"],
+      automerge: false,
+    },
+  ],
+}
