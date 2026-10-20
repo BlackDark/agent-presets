@@ -8,6 +8,12 @@ on:
 permissions:
   contents: read
 
+env:
+  # renovate: datasource=github-releases depName=rhysd/actionlint
+  ACTIONLINT_VERSION: "1.7.7"
+  # renovate: datasource=npm depName=renovate
+  RENOVATE_VERSION: "42.99.0"
+
 jobs:
   actionlint:
     runs-on: ubuntu-latest
@@ -16,19 +22,19 @@ jobs:
       - uses: actions/checkout@v5
       - name: actionlint
         run: |
-          bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.7/scripts/download-actionlint.bash) 1.7.7
+          bash <(curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash") "$ACTIONLINT_VERSION"
           # snippets call ./.github/workflows/ci.yml, which exists only in the target repo
           ./actionlint -color -ignore "could not read reusable workflow file" .github/workflows/*.yml snippets/*.yml
 
-  renovate-template:
+  renovate-config:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
       - name: renovate-config-validator
-        # Validated as a repo config, the way target repos load it
+        # Template validated as a repo config, the way target repos load it; then this repo's own
         run: |
           mkdir -p "$RUNNER_TEMP/repo/.github"
           cp templates/renovate.template.json5 "$RUNNER_TEMP/repo/.github/renovate.json5"
-          cd "$RUNNER_TEMP/repo"
-          npx --yes --package renovate@42.99.0 -- renovate-config-validator --strict
+          (cd "$RUNNER_TEMP/repo" && npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict)
+          npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict
