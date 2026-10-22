@@ -71,6 +71,14 @@
       groupSlug: "go-toolchain",
       automerge: true,
     },
+    // Apps only, uncomment: Renovate leaves the go.mod go directive behind the grouped
+    // toolchain. It is the minimum Go a module needs, so libraries keep it low.
+    // {
+    //   description: "Apps: move the go.mod go directive with the toolchain",
+    //   matchManagers: ["gomod"],
+    //   matchDepTypes: ["golang"],
+    //   rangeStrategy: "bump",
+    // },
     {
       description: "Node runtime (mise + node images) in one PR",
       matchManagers: ["mise", "dockerfile", "docker-compose", "nodenv", "nvm"],
