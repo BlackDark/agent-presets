@@ -22,5 +22,5 @@ Choosing anything but the first: propose to the user with the reason, record it 
 - No CDN or external fonts: the device is often offline. System font stack.
 - Ship pre-compressed `*.gz`; the device server sends `Content-Encoding: gzip`. Flat file names, no deep routes: hash routing or one page.
 - The API lives in the firmware (C/C++, Go, Rust); define it once ([contracts.md](contracts.md)) and keep the UI a thin client.
-- Login on a LAN IP: no passkeys (secure context needed), see [auth.md](auth.md).
+- Login on a LAN IP: no passkeys, even over HTTPS: the RP ID must be a domain. See [auth.md](auth.md).
 - Dev: Vite dev server proxies `/api` to the device or to a mock.
