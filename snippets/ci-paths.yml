@@ -1,6 +1,7 @@
 # CI for repos with several areas (from BlackDark/agent-presets). Copy to .github/workflows/ci.yml instead of ci.yml.
 # - Rulesets require one check only: `check`. Area jobs can be added, renamed or skipped without touching the ruleset.
-# - PRs run only the areas they touch; main, tags, workflow_call and manual runs run every area.
+# - PRs run only the areas they touch; main, workflow_call and manual runs run every area. Tags arrive via
+#   release.yml calling this workflow (workflow_call), so no tag trigger here: it would run CI twice.
 # - Path detection uses plain git: a PR checkout is the merge commit, so HEAD^1..HEAD is exactly the PR's diff.
 #   No third-party action and no extra permission, so release.yml can still call this with `contents: read`.
 # - `check` needs `if: always()`: a skipped job reports success, so without it a failed area would leave the gate green.
