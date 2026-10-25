@@ -30,6 +30,7 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 | [`stack/contracts.md`](stack/contracts.md) | Shared types between Go/Rust and TypeScript, OpenAPI |
 | [`stack/embedded-ui.md`](stack/embedded-ui.md) | UIs inside firmware or router images (ESP32, OpenWrt), size budgets |
 | [`stack/svelte.md`](stack/svelte.md) | Svelte projects: the stack mapped to Svelte |
+| [`stack/auth.md`](stack/auth.md) | Login: SSO, Better Auth or own login, passkeys, passwords |
 | [`stack/desktop.md`](stack/desktop.md) | Tauri desktop apps |
 | [`stack/browser-extension.md`](stack/browser-extension.md) | Browser extensions (MV3) |
 | [`stack/vscode-extension.md`](stack/vscode-extension.md) | VS Code extensions |

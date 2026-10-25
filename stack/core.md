@@ -2,12 +2,13 @@
 
 Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-10-20. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-10-23. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
 - UI inside firmware or a router image, or with a hard size budget → [embedded-ui.md](embedded-ui.md)
 - Svelte project (chosen or existing) → [svelte.md](svelte.md)
+- Login, passkeys, passwords → [auth.md](auth.md)
 - Desktop app (Tauri) → [desktop.md](desktop.md)
 - Browser extension → [browser-extension.md](browser-extension.md)
 - VS Code extension → [vscode-extension.md](vscode-extension.md)
@@ -61,7 +62,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - Validation: **Zod 4**. Size budget (embedded UI, extension popup/content script), any framework → **Zod Mini** (`zod/mini`): same schemas, types, errors. Budget under ~30 KB, or no Zod anywhere in the project → **Valibot**. Form schema min+gzip (2026-10): Zod 26 KB, Zod Mini 6 KB, Valibot 1.5 KB.
 - DB: **SQLite** for one server, **PostgreSQL** when shared.
 - SQL: **Drizzle** (pin 0.45 while 1.0 is RC **(watch)**), **sqlx** for Rust. Migrations checked in and embedded in the binary.
-- Auth: single admin → own login (argon2id, session cookie, CSRF) + **SimpleWebAuthn** passkeys. Multi-user → **Better Auth**, kept current.
+- Auth: delegated SSO if there is one; multi-user → **Better Auth**; single admin → own login + passkeys. Details: [auth.md](auth.md).
 
 ## Tooling
 
