@@ -39,6 +39,13 @@ Same PR, only what the change touches:
 - Names explain what, comments explain why.
 - Refactors keep behaviour and land in their own commit.
 
+## Stewardship
+
+You own the codebase's health, not only the task: leave every touched area cleaner than you found it.
+- Small fixes beside the change (dead code, stale comment or doc, missing test, unclear name): fix them in their own commit in the same PR.
+- Whatever your change makes obsolete (code, flags, config, docs, deps) goes in the same PR.
+- Larger problems you notice: report them to the user with `file:line` and a proposal; the PR stays on topic.
+
 ## Git
 
 - Conventional Commits. One topic per PR.
