@@ -38,3 +38,13 @@ jobs:
           cp templates/renovate.template.json5 "$RUNNER_TEMP/repo/.github/renovate.json5"
           (cd "$RUNNER_TEMP/repo" && npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict)
           npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict
+
+  # The one required check in the ruleset (same gate as snippets/ci-paths.yml)
+  check:
+    if: always()
+    needs: [actionlint, renovate-config]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

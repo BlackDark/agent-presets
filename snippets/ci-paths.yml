@@ -1,0 +1,80 @@
+# CI for repos with several areas (from BlackDark/agent-presets). Copy to .github/workflows/ci.yml instead of ci.yml.
+# - Rulesets require one check only: `check`. Area jobs can be added, renamed or skipped without touching the ruleset.
+# - PRs run only the areas they touch; main, tags, workflow_call and manual runs run every area.
+# - Path detection uses plain git: a PR checkout is the merge commit, so HEAD^1..HEAD is exactly the PR's diff.
+#   No third-party action and no extra permission, so release.yml can still call this with `contents: read`.
+# - `check` needs `if: always()`: a skipped job reports success, so without it a failed area would leave the gate green.
+#   Cancelled counts as failed, so a manually cancelled run can't be merged either.
+# - Draft PRs skip `changes`; area jobs inherit the skip and `check` passes (drafts can't be merged anyway).
+# - Merge queue: add `merge_group:` to `on:`.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  changes:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      web: ${{ steps.areas.outputs.web }}
+      firmware: ${{ steps.areas.outputs.firmware }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2 # the merge commit and its base parent
+      - id: areas
+        run: |
+          if [ "$GITHUB_EVENT_NAME" != pull_request ]; then
+            echo "web=true" >> "$GITHUB_OUTPUT"
+            echo "firmware=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed=$(git diff --name-only HEAD^1 HEAD)
+          has() { grep -qE "$1" <<< "$changed" && echo true || echo false; }
+          # One line per area; include shared files (mise.toml, lockfiles) where they affect the area
+          echo "web=$(has '^(web/|mise\.toml$|pnpm-lock\.yaml$)')" >> "$GITHUB_OUTPUT"
+          echo "firmware=$(has '^(firmware/|mise\.toml$)')" >> "$GITHUB_OUTPUT"
+
+  web:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v3
+      - run: pnpm install --frozen-lockfile
+      - run: mise run check:web
+
+  firmware:
+    needs: changes
+    if: needs.changes.outputs.firmware == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v3
+      - run: mise run check:firmware
+
+  check:
+    if: always()
+    needs: [changes, web, firmware]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

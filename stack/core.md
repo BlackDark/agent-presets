@@ -74,7 +74,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 
 ## Delivery
 
-- CI: one `ci.yml` per repo from [snippets/ci.yml](../snippets/ci.yml): draft PRs skip, outdated PR runs cancel, `mise run check`.
+- CI: one `ci.yml` per repo from [snippets/ci.yml](../snippets/ci.yml): draft PRs skip, outdated PR runs cancel, `mise run check`. Several areas → [snippets/ci-paths.yml](../snippets/ci-paths.yml). Rulesets require exactly one check: `check`.
 - Server apps: **OCI image** on GHCR (amd64 + arm64, native runners) from [snippets/docker-release.yml](../snippets/docker-release.yml); run with **Podman Quadlets** or Compose. Host-managing apps: one binary + systemd units.
 - Releases: version lives in the version file (`package.json`, `Cargo.toml`); tag `v<version>` starts `release.yml`; GitHub release with generated notes.
 - Docs site: **Zensical** on GitHub Pages **(watch)**.
