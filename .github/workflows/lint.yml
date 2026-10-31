@@ -19,7 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: actionlint
         run: |
           bash <(curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash") "$ACTIONLINT_VERSION"
@@ -30,7 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: renovate-config-validator
         # Template validated as a repo config, the way target repos load it; then this repo's own
         run: |
@@ -39,10 +43,26 @@ jobs:
           (cd "$RUNNER_TEMP/repo" && npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict)
           npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict
 
+  zizmor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Workflows only: snippets keep tags for readability, Renovate pins the copies
+      - uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
+        with:
+          inputs: .github/workflows
+          advanced-security: false
+          annotations: true
+
   # The one required check in the ruleset (same gate as snippets/ci-paths.yml)
   check:
     if: always()
-    needs: [actionlint, renovate-config]
+    needs: [actionlint, renovate-config, zizmor]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
