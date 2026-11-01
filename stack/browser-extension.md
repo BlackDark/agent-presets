@@ -7,4 +7,4 @@
 - Permissions: minimal; optional host permissions requested on use; no tracking; ship a `PRIVACY.md`.
 - Tests: Vitest for logic; Playwright on popup/options pages with a `chrome-stub.ts` (also screenshots).
 - Store material (icons, banners, screenshots, texts): `store-assets/`, outside `public/` so it isn't packaged.
-- Release: tag `v<version>` builds per-browser zips and attaches them to the GitHub release; store upload (Chrome draft, Firefox with source archive, Edge) in the same workflow, secrets per store.
+- Release: the workflow release-please calls builds per-browser zips and attaches them to the GitHub release; store upload (Chrome draft, Firefox with source archive, Edge) in the same workflow, secrets per store.

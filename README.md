@@ -39,6 +39,7 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 | [`templates/code-review.prompt.md`](templates/code-review.prompt.md) | Prompt for a thorough, scenario-backed code review |
 | [`snippets/ci.yml`](snippets/ci.yml) | CI header: draft PRs skip, outdated runs cancel, `mise run check` |
 | [`snippets/ci-paths.yml`](snippets/ci-paths.yml) | CI for several areas: PRs run only what they touch, one `check` gate for rulesets |
+| [`snippets/release-please.yml`](snippets/release-please.yml), [`release-please-config.json`](snippets/release-please-config.json), [`release-please-manifest.json`](snippets/release-please-manifest.json) | Conventional Commits → release PR → tag + GitHub release; calls `release.yml` with the tag |
 | [`snippets/docker-release.yml`](snippets/docker-release.yml) | Tag → multi-arch image on GHCR (native arm64) + GitHub release |
 | [`templates/renovate.template.json5`](templates/renovate.template.json5) | `.github/renovate.json5` for every repo: weekly, automerge all but majors, grouped, Go tidy |
 | [`snippets/mise.toml`](snippets/mise.toml), [`rust-toolchain.toml`](snippets/rust-toolchain.toml) | Pinned tools |

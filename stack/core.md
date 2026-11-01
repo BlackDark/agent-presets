@@ -2,7 +2,7 @@
 
 Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-10-31. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-11-01. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
@@ -76,6 +76,6 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 
 - CI: one `ci.yml` per repo from [snippets/ci.yml](../snippets/ci.yml): draft PRs skip, outdated PR runs cancel, `mise run check`. Several areas → [snippets/ci-paths.yml](../snippets/ci-paths.yml). Rulesets require exactly one check: `check`. Workflows pass [zizmor](https://docs.zizmor.sh): `persist-credentials: false` on checkout, actions pinned by hash (Renovate pins them), least-privilege `permissions`.
 - Server apps: **OCI image** on GHCR (amd64 + arm64, native runners) from [snippets/docker-release.yml](../snippets/docker-release.yml); run with **Podman Quadlets** or Compose. Host-managing apps: one binary + systemd units.
-- Releases: version lives in the version file (`package.json`, `Cargo.toml`); tag `v<version>` starts `release.yml`; GitHub release with generated notes.
+- Releases: [snippets/release-please.yml](../snippets/release-please.yml) opens a release PR from Conventional Commits (version file + CHANGELOG). Merging it tags `vX.Y.Z` and creates the GitHub release, then calls `release.yml` with that tag: a tag pushed with `GITHUB_TOKEN` starts no workflows. Server images: [snippets/docker-release.yml](../snippets/docker-release.yml), called the same way (drop its tag trigger; do not create the release again).
 - Docs site: **Zensical** on GitHub Pages **(watch)**.
 - Repo texts: [templates/AGENTS.template.md](../templates/AGENTS.template.md), [templates/README.template.md](../templates/README.template.md), [templates/renovate.template.json5](../templates/renovate.template.json5).

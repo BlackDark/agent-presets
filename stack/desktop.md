@@ -8,5 +8,5 @@
 - Plugins: official ones as needed (`updater`, `single-instance`, `window-state`, `store`, `dialog`, `notification`, `autostart`, `deep-link`, `log`). Helper programs as sidecars (`bundle.externalBin`).
 - Packages: Linux AppImage (+ `.deb`/`.rpm`/Flatpak if expected), Windows NSIS, macOS `.dmg`. macOS needs Apple Developer account + notarization; Windows needs a signing cert, otherwise first-start warnings.
 - Updates: `tauri-plugin-updater` with its own signing key, `latest.json` in the GitHub release.
-- Release: **tauri-action**; one version in `Cargo.toml`, `tauri.conf.json`, `package.json`, bumped together.
+- Release: **tauri-action** in the workflow release-please calls. One version in `Cargo.toml`, `tauri.conf.json`, `package.json`, bumped together (`extra-files` in the release-please config).
 - Tests: Playwright against the Vite dev server with `mockIPC` (also screenshots); Vitest for stores/logic; Rust tests for the core. Real window needed → WebdriverIO Tauri service (`tauri-driver`: Linux + Windows only).

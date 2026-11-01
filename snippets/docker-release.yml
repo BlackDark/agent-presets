@@ -2,6 +2,8 @@
 # Copy to .github/workflows/release.yml. Needs ci.yml with `workflow_call:` and a Dockerfile at the root.
 # - Tag vX.Y.Z → image tags x.y.z, x.y, latest + GitHub release. Tag must match package.json / Cargo.toml.
 # - Manual run on a branch → tag `edge`, no release.
+# - With release-please: drop the tag trigger. workflow_call input `tag`, check out that ref, push the
+#   image. The GitHub release already exists; do not `gh release create`.
 # - amd64 and arm64 build on native runners (no QEMU); a merge job joins them into one manifest.
 # - Build cache lives in the registry (buildcache-<arch> tags): an Actions cache from tag v1.2.3 is unreadable on v1.2.4.
 name: Release
