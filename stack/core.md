@@ -7,6 +7,7 @@ Reviewed 2026-10-31. **(watch)** = likely to change, see [watch.md](watch.md).
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
 - UI inside firmware or a router image, or with a hard size budget → [embedded-ui.md](embedded-ui.md)
+- Rust firmware for ESP32 → [embedded-rust.md](embedded-rust.md)
 - Svelte project (chosen or existing) → [svelte.md](svelte.md)
 - Desktop app (Tauri) → [desktop.md](desktop.md)
 - Browser extension → [browser-extension.md](browser-extension.md)
