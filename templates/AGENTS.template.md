@@ -56,6 +56,7 @@ You own the codebase's health, not only the task: leave every touched area clean
 ## Boundaries
 
 - `sudo`, system packages, global installs: the user runs them; ask with what and why.
+- No `.github/FUNDING.yml`: ask, then copy https://github.com/BlackDark/agent-presets/blob/main/templates/FUNDING.yml
 - Running user processes stay up; test on other ports.
 - Language: code, comments, docs, commits in English; UI in <languages>.
 

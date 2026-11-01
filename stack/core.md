@@ -79,3 +79,4 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - Releases: [snippets/release-please.yml](../snippets/release-please.yml) opens a release PR from Conventional Commits (version file + CHANGELOG). Merging it tags `vX.Y.Z` and creates the GitHub release, then calls `release.yml` with that tag: a tag pushed with `GITHUB_TOKEN` starts no workflows. Server images: [snippets/docker-release.yml](../snippets/docker-release.yml), called the same way (drop its tag trigger; do not create the release again).
 - Docs site: **Zensical** on GitHub Pages **(watch)**.
 - Repo texts: [templates/AGENTS.template.md](../templates/AGENTS.template.md), [templates/README.template.md](../templates/README.template.md), [templates/renovate.template.json5](../templates/renovate.template.json5).
+- Sponsoring: a new repo copies [templates/FUNDING.yml](../templates/FUNDING.yml) to `.github/FUNDING.yml`. An existing repo without that file: ask before adding.
