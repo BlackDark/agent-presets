@@ -2,7 +2,7 @@
 
 Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-10-31. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-11-01. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
@@ -79,3 +79,4 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - Releases: version lives in the version file (`package.json`, `Cargo.toml`); tag `v<version>` starts `release.yml`; GitHub release with generated notes.
 - Docs site: **Zensical** on GitHub Pages **(watch)**.
 - Repo texts: [templates/AGENTS.template.md](../templates/AGENTS.template.md), [templates/README.template.md](../templates/README.template.md), [templates/renovate.template.json5](../templates/renovate.template.json5).
+- Sponsoring: a new repo copies [templates/FUNDING.yml](../templates/FUNDING.yml) to `.github/FUNDING.yml`. An existing repo without that file: ask before adding.
