@@ -8,8 +8,7 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
     "github>blackdark/renovate-base//default.json5", // path after // is required for .json5
-    // Go repos: also extend the go.mod/mise/golang-image grouping, and add
-    // postUpdateOptions: ["gomodTidy", "gomodUpdateImportPaths"] so CI's `go mod tidy -diff` stays green.
+    // Go repos: also extend the go.mod/mise/golang-image grouping.
     // "github>blackdark/renovate-base//go.json5",
     // Rust repos: also extend the rust-toolchain.toml channel bump and Cargo handling.
     // "github>blackdark/renovate-base//rust.json5",
@@ -22,6 +21,9 @@
   platformAutomerge: true,
 
   separateMultipleMajor: true,
+
+  // Go: keep go.sum tidy (CI's `go mod tidy -diff` stays green); rewrite import paths on /vN majors.
+  postUpdateOptions: ["gomodTidy", "gomodUpdateImportPaths"],
 
   // Later rules override earlier ones, and these override renovate-base: general first, specific after.
   packageRules: [
