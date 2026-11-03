@@ -4,6 +4,8 @@
 // this repo adds; delete rules for ecosystems it doesn't use.
 // Repo settings: enable "Allow auto-merge" and require the CI status checks on main,
 // otherwise platform automerge lands PRs before CI ran.
+// renovate-base rebases only on conflicts (saves CI). If the ruleset also requires up-to-date
+// branches, add rebaseWhen: "behind-base-branch" below, or automerge stalls on PRs that fell behind.
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
