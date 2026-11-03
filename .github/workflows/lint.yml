@@ -10,7 +10,7 @@ permissions:
 
 env:
   # renovate: datasource=github-releases depName=rhysd/actionlint
-  ACTIONLINT_VERSION: "1.7.7"
+  ACTIONLINT_VERSION: "1.7.12"
   # renovate: datasource=npm depName=renovate
   RENOVATE_VERSION: "44.198.0"
 
