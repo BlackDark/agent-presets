@@ -1,18 +1,18 @@
 # CI for every repo (from BlackDark/agent-presets). Copy to .github/workflows/ci.yml.
-# - One workflow, one required check: `ci`. Area jobs can be added, renamed or skipped without touching the ruleset.
+# - One workflow, one required check: `check`. Area jobs can be added, renamed or skipped without touching the ruleset.
 #   Required checks match by NAME across ALL workflows. Do not add a second workflow with its own gate (a fast
 #   `lint.yml` gate once satisfied the ruleset before CI finished); put checks here as another area instead.
 # - Areas: `app` runs `mise run check`; `lint` checks workflows and Renovate config. PRs run only the areas they
 #   touch (docs-only PRs run neither); main, workflow_call and manual runs run every area. Tags arrive via
 #   release.yml calling this workflow (workflow_call), so no tag trigger here: it would run CI twice.
 # - One code area (most repos): keep the file as is. Several (frontend + firmware, ansible + pulumi): copy the `app`
-#   job per area, add its output and a line in `changes`, and its name to the `ci` job's `needs`.
+#   job per area, add its output and a line in `changes`, and its name to the `check` job's `needs`.
 # - No Renovate config or nothing else to lint: delete the `lint` jobs, their output and the name in `needs`.
 # - Path detection uses plain git: a PR checkout is the merge commit, so HEAD^1..HEAD is exactly the PR's diff.
 #   No third-party action and no extra permission, so release.yml can still call this with `contents: read`.
-# - `ci` needs `if: always()`: a skipped job reports success, so without it a failed area would leave the gate green.
+# - `check` needs `if: always()`: a skipped job reports success, so without it a failed area would leave the gate green.
 #   Cancelled counts as failed, so a manually cancelled run can't be merged either.
-# - Draft PRs skip `changes`; area jobs inherit the skip and `ci` passes (drafts can't be merged anyway).
+# - Draft PRs skip `changes`; area jobs inherit the skip and `check` passes (drafts can't be merged anyway).
 # - Merge queue: add `merge_group:` to `on:`.
 name: CI
 
@@ -121,7 +121,7 @@ jobs:
           advanced-security: false
           annotations: true
 
-  ci:
+  check:
     if: always()
     needs: [changes, app, actionlint, renovate-config, zizmor]
     runs-on: ubuntu-latest

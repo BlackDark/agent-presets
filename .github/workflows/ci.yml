@@ -1,5 +1,5 @@
 # This repo's own CI: the `lint` area of snippets/ci.yml (it has no app code), plus linting of the snippets
-# and the Renovate template. One workflow, one required check: `ci`.
+# and the Renovate template. One workflow, one required check: `check`.
 name: CI
 
 on:
@@ -63,7 +63,7 @@ jobs:
           annotations: true
 
   # The one required check in the ruleset
-  ci:
+  check:
     if: always()
     needs: [actionlint, renovate-config, zizmor]
     runs-on: ubuntu-latest
