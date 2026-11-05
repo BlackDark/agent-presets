@@ -42,4 +42,4 @@ Apply only while touching that part anyway:
 - Auth.js/NextAuth → Better Auth. Zod 3 → 4.
 - Material for MkDocs → Zensical before 2027-05-05.
 - `.nvmrc`, `.tool-versions`, Volta, manual installs → `mise.toml`; Rust stays on rustup.
-- `ci.yml` without draft skip/concurrency → [snippets/ci.yml](../snippets/ci.yml) header.
+- `ci.yml` without draft skip/concurrency, or a separate `lint.yml` with its own gate → [snippets/ci.yml](../snippets/ci.yml) (one workflow, one `check` gate).

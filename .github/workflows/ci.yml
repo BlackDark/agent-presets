@@ -1,9 +1,13 @@
-name: Lint
+# This repo's own CI: the `lint` area of snippets/ci.yml (it has no app code), plus linting of the snippets
+# and the Renovate template. One workflow, one required check: `check`.
+name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_call: # the release snippets call this file; none runs here, but they are linted against it
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -58,7 +62,7 @@ jobs:
           advanced-security: false
           annotations: true
 
-  # The one required check in the ruleset (same gate as snippets/ci-paths.yml)
+  # The one required check in the ruleset
   check:
     if: always()
     needs: [actionlint, renovate-config, zizmor]
