@@ -13,6 +13,9 @@ Template from BlackDark/agent-presets. For the agent filling it in:
 
 `mise run check` green before every commit. <Extra checks: `mise run e2e` after UI changes, …>
 
+CI time is a cost: after touching `.github/workflows/`, deps or the build, check the run's job timings.
+New slow step → cache it (main saves, PRs restore, key on the lockfile), skip it by path, or run jobs in parallel. Pattern: https://github.com/BlackDark/agent-presets/blob/main/snippets/ci.yml
+
 ## Stack
 
 Follows https://github.com/BlackDark/agent-presets/blob/main/stack/core.md.

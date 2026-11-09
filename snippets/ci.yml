@@ -13,6 +13,10 @@
 # - `check` needs `if: always()`: a skipped job reports success, so without it a failed area would leave the gate green.
 #   Cancelled counts as failed, so a manually cancelled run can't be merged either.
 # - Draft PRs skip `changes`; area jobs inherit the skip and `check` passes (drafts can't be merged anyway).
+# - Caches: only pushes to main save; PRs and tag release runs (workflow_call) restore only. Saves from PRs crowd the 10 GB
+#   repo budget and are invisible to other branches; saves from a release run are a cache-poisoning path.
+#   Keys hash the lockfile, so a dep bump starts fresh and restore-keys fall back to the last main cache.
+#   New slow step (> ~30 s download or build)? Cache it the same way, or explain in AGENTS.md why not.
 # - Merge queue: add `merge_group:` to `on:`.
 name: CI
 
@@ -77,8 +81,27 @@ jobs:
         with:
           persist-credentials: false
       - uses: jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195 # v5.2.5 tools from mise.toml; Rust from rust-toolchain.toml via rustup
-      - run: pnpm install --frozen-lockfile # TS repos only
+        with:
+          cache_save: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+      # TS repos only. Delete the cache steps a repo doesn't need.
+      - id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
+      - run: pnpm install --frozen-lockfile
+      # Rust repos only
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
       - run: mise run check
+      - if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
   actionlint:
     needs: changes
