@@ -15,3 +15,17 @@ Reference material agents read by URL: stack defaults, repo templates, CI snippe
 - New or renamed file: update the map in `README.md` and any pointer to it.
 - Snippets and the Renovate template stay valid: the `Lint` workflow is green.
 - Conventional Commits. Merge: rebase when commits are logically separate, squash otherwise.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues (`BlackDark/agent-presets`) via `gh`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: root `GLOSSARY.md` + `docs/adr/`. See `docs/agents/domain.md`.
