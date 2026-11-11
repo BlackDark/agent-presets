@@ -1,8 +1,22 @@
+<div align="center">
+
 # agent-presets
 
-**Starting points for coding agents: a curated tech stack, repo templates, CI snippets and writing rules, all in one place to link to.**
+**Starting points for coding agents: a curated tech stack, repo templates, CI snippets and writing rules, all in one place to link to.**<br>
+Point the agent here instead of re-explaining preferences in every repo.
 
-Instead of re-explaining preferences in every repo, point the agent here. Files that agents read are written terse to save tokens; this README is the human entry point.
+[![CI](https://github.com/BlackDark/agent-presets/actions/workflows/ci.yml/badge.svg)](https://github.com/BlackDark/agent-presets/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/BlackDark/agent-presets)](LICENSE)
+
+</div>
+
+## Why
+
+Agents need the same preferences in every repo, and re-pasting them costs time and tokens. Files that agents read are written terse; this README is the human entry point.
+
+- **One link**: the agent reads the stack, template or snippet it needs, nothing else.
+- **Cheap context**: agents load only the stack branch their task needs.
+- **Pinned defaults**: one verify command and pinned tools across repos.
 
 ## Use it
 
@@ -43,6 +57,7 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 | [`templates/renovate.template.json5`](templates/renovate.template.json5) | `.github/renovate.json5` for every repo: extends `renovate-base`; adds Node group, majors by hand |
 | [`templates/FUNDING.yml`](templates/FUNDING.yml) | `.github/FUNDING.yml`: Ko-fi and GitHub Sponsors. New repo: add it. Existing repo: ask first |
 | [`snippets/mise.toml`](snippets/mise.toml), [`rust-toolchain.toml`](snippets/rust-toolchain.toml) | Pinned tools |
+| [`docs/agents/`](docs/agents/) | This repo's agent-skills config: issue tracker, triage labels, domain docs |
 | [`skills/write-for-agents`](skills/write-for-agents/SKILL.md) | How to write AGENTS.md, skills and prompts that stay small and predictable |
 
 ## Principles
@@ -52,4 +67,11 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 - **Defaults, not dogma**: deviations are fine when the reason is written into the project's `AGENTS.md`.
 - **Cheap context**: agents load only the stack branch their task needs.
 
-Inspired by [firsttris/workflows](https://github.com/firsttris/workflows). License: [MIT](LICENSE).
+---
+
+<div align="center"><sub>
+
+[Report a bug](https://github.com/BlackDark/agent-presets/issues/new) · License: [MIT](LICENSE)<br>
+Inspired by [firsttris/workflows](https://github.com/firsttris/workflows).
+
+</sub></div>
