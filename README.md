@@ -69,9 +69,7 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 
 ---
 
-<div align="center"><sub>
-
-[Report a bug](https://github.com/BlackDark/agent-presets/issues/new) · License: [MIT](LICENSE)<br>
-Inspired by [firsttris/workflows](https://github.com/firsttris/workflows).
-
-</sub></div>
+<p align="center">
+<a href="https://github.com/BlackDark/agent-presets/issues/new">Report a bug</a> · License: <a href="LICENSE">MIT</a><br>
+<sub>Inspired by <a href="https://github.com/firsttris/workflows">firsttris/workflows</a>.</sub>
+</p>

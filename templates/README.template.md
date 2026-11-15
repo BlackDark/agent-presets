@@ -71,9 +71,7 @@ Issues and PRs are welcome; run `mise run check` first.
 
 ---
 
-<div align="center"><sub>
-
-[Report a bug](https://github.com/BlackDark/<repo>/issues/new) · License: [<license>](LICENSE)<br>
-<Name> is not affiliated with <third-party names used>.
-
-</sub></div>
+<p align="center">
+<a href="https://github.com/BlackDark/<repo>/issues/new">Report a bug</a> · License: <a href="LICENSE"><license></a><br>
+<sub><Name> is not affiliated with <third-party names used>.</sub>
+</p>
