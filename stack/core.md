@@ -2,7 +2,7 @@
 
 Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-11-09. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-11-16. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
@@ -44,7 +44,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - Full-stack/SSR: **TanStack Start**; server functions instead of a separate API when the app owns its backend. Pin the minor.
 - Routing **TanStack Router** (file-based). Server state **TanStack Query**. Tables/lists **TanStack Table** + **TanStack Virtual**.
 - Forms: controlled inputs; **TanStack Form** once a form grows; Zod schemas.
-- Components: **shadcn/ui** copied into the repo, Tailwind + `class-variance-authority`. Primitives: **Base UI** for new projects (`shadcn init -b base`); Radix projects stay Radix. One primitive lib per repo, see `components.json` (Radix `asChild` vs Base UI `render`).
+- Components: **shadcn/ui** copied into the repo, Tailwind + `class-variance-authority`. Add and use the registry component that covers the UI. A custom component in its place: a comment on that file names the official component and why it does not fit. Primitives: **Base UI** for new projects (`shadcn init -b base`); Radix projects stay Radix. One primitive lib per repo, see `components.json` (Radix `asChild` vs Base UI `render`).
 - CSS: **Tailwind CSS 4**, CSS-first config, tokens as CSS variables, light + dark.
 - Icons: **lucide-react**.
 - Charts: **uPlot** for time series via one wrapper reading theme CSS variables **(watch)**; own SVG for sparklines/small charts; pie/bar/scatter: own SVG or Apache ECharts (record why).
