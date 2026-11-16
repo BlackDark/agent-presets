@@ -3,7 +3,7 @@
 Used when Svelte was chosen (embedded UI, or an agreed deviation from React) or already exists. Svelte 5 runes only in new code.
 
 - App: **SvelteKit** for full apps; plain **Vite** + `@sveltejs/vite-plugin-svelte` for a static SPA (embedded, widgets). Static hosting: SvelteKit `adapter-static`.
-- Components: **shadcn-svelte** (Bits UI) copied into the repo, Tailwind 4, `@lucide/svelte`.
+- Components: **shadcn-svelte** (Bits UI) copied into the repo, Tailwind 4, `@lucide/svelte`. Add and use the registry component that covers the UI. A custom component in its place: a comment on that file names the official component and why it does not fit.
 - Server state: `@tanstack/svelte-query`. Forms: `@tanstack/svelte-form`. Tables: `@tanstack/svelte-table` 9 with shadcn-svelte table components.
 - i18n: **Paraglide JS** (SvelteKit integration).
 - Types: `svelte-check` in `pnpm check`; `tsc` doesn't see `.svelte` files.

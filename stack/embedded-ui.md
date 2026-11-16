@@ -18,7 +18,7 @@ Choosing anything but the first: propose to the user with the reason, record it 
   [{ "path": "dist/**/*.{html,js,css,svg}", "limit": "50 KB", "gzip": true }]
   ```
 - Validation: size-budget rule in [core.md](core.md) (Zod Mini, Valibot for tiny budgets).
-- Only the shadcn-svelte components the UI uses; charts as own SVG; no icon font, only imported icons.
+- Only the shadcn-svelte components the UI uses. A custom component in its place still follows the component rule in [svelte.md](svelte.md). Charts as own SVG; no icon font, only imported icons.
 - No CDN or external fonts: the device is often offline. System font stack.
 - Ship pre-compressed `*.gz`; the device server sends `Content-Encoding: gzip`. Flat file names, no deep routes: hash routing or one page.
 - The API lives in the firmware (C/C++, Go, Rust); define it once ([contracts.md](contracts.md)) and keep the UI a thin client.
