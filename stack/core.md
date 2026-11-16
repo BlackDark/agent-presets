@@ -30,7 +30,7 @@ Branches, read only when the task touches them:
 
 - Global installs need the user's permission: `npm i -g`, `cargo install`, `go install`, `apt`/`dnf`/`brew`, `sudo`, `curl | sh`. Ask with what, where, why. `mise` missing → tell the user.
 - **mise** with a repo-local `mise.toml` for every runtime and CLI except Rust (`go:`, `npm:`, `cargo:`, `aqua:` backends when no registry entry). Install with `mise install`.
-- Pin exact versions, current latest when added (`mise latest <tool>`, `mise use --pin <tool>`). One version per tool: Renovate bumps concrete versions only.
+- Pin exact versions. Use the latest release only when it satisfies the applicable release-age policy; otherwise use the newest release that satisfies it. Do not exclude tools or packages from release-age checks for any tool or package manager (mise, pnpm, npm, etc.); bypass release age only when explicitly required, with the user's approval and a one-line reason next to the exception. One version per tool: Renovate bumps concrete versions only.
 - **Rust: rustup** with committed `rust-toolchain.toml` (pinned channel, `rustfmt`, `clippy`, targets).
 - JS tools (Biome, Vitest, Playwright, Drizzle Kit) are `devDependencies`, run via scripts. mise provides runtimes only.
 - CI installs from the same files. Personal overrides: `mise.local.toml` (gitignored).
