@@ -38,3 +38,12 @@
 - Worth it for busy protected branches; costs CI runs and latency. Low volume: up-to-date branch checks instead.
 - Needs repo admin and an org repo (private: Enterprise Cloud) ([docs](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)).
 - Before enabling: add `merge_group` to every required workflow, run all areas on merge-group commits, test a queued merge and a failing check. Merge-group jobs stay read-only, no cache writes.
+
+## Security
+
+Public repos only; private ones lack the Security tab without Advanced Security.
+
+- Every public repo: `SECURITY.md` ([template](../templates/SECURITY.template.md)) and private vulnerability reporting enabled (`gh api -X PUT repos/<owner>/<repo>/private-vulnerability-reporting`).
+- With code: [CodeQL](../snippets/codeql.yml), its own workflow, never in `check`. Opt-in: ask the user before adding it (extra workflow, Security-tab alerts to triage).
+- Shipping binaries or images others pull: base images pinned by digest, release provenance via `actions/attest-build-provenance`.
+- Scorecard is not a preset: it mostly repeats pins, `permissions`, zizmor and Renovate; Code-Review and Branch-Protection stay low solo. Run the CLI ad hoc if a score is wanted (expect 6-7/10).
