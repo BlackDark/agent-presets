@@ -19,7 +19,7 @@ Branches, read only when the task touches them:
 - One verify entry point per repo: `mise run check`. It wraps the language checks:
   - TS: `pnpm check` = Biome, `tsc --noEmit`, Vitest
   - Rust: `cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test`
-  - Go: `test -z "$(gofmt -l .)" && go vet ./... && go test ./...`
+  - Go: `files=$(gofmt -l .) && test -z "$files" && go vet ./... && go test ./...` (a bare `$(gofmt -l .)` hides gofmt errors)
 - Green `mise run check` before every commit.
 - New dependency outside this stack: ask first, state why in the commit message.
 - Generated files (API clients, bindings, compiled i18n): regenerate, never hand-edit; CI fails on diff.

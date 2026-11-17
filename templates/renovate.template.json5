@@ -18,7 +18,8 @@
   ],
 
   // With the weekly schedule, Renovate's own automerge only runs inside the window too, so a PR that
-  // turns green later would wait a week. Platform automerge (GitHub native) merges it as soon as CI passes.
+  // turns green later would wait a week. Platform automerge (GitHub native) merges it as soon as CI passes,
+  // also on a stale base (on purpose; a merge queue is the stricter option, see stack/ci.md).
   updateNotScheduled: false,
   platformAutomerge: true,
 

@@ -10,5 +10,6 @@ pnpm = "<pin>"
 # The one verify entry point for humans, agents and CI.
 [tasks.check]
 description = "Everything CI checks"
+shell = "bash -c" # default sh (dash) rejects pipefail
 run = "pnpm check"
 # Polyglot repo: depends = ["check:ts", "check:rust"] with one task per language.
