@@ -39,11 +39,11 @@
 - Needs repo admin and an org repo (private: Enterprise Cloud) ([docs](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)).
 - Before enabling: add `merge_group` to every required workflow, run all areas on merge-group commits, test a queued merge and a failing check. Merge-group jobs stay read-only, no cache writes.
 
-## Security scans
+## Security
 
-Public repos only (Security tab upload needs Advanced Security on private ones). Own workflows, never in `check`.
+Public repos only; private ones lack the Security tab without Advanced Security.
 
-- `SECURITY.md` ([template](../templates/SECURITY.template.md)) plus private vulnerability reporting: every public repo.
-- [CodeQL](../snippets/codeql.yml): public repos with code. One matrix entry per language plus `actions`.
-- [Scorecard](../snippets/scorecard.yml): optional, for repos others consume. Expect about 6-7/10: Code-Review and Branch-Protection stay low solo; the rest is already covered by pins, `permissions`, zizmor and Renovate. Worth acting on: digest-pinned base images and release provenance (`actions/attest-build-provenance`).
-- No badges by default.
+- Every public repo: `SECURITY.md` ([template](../templates/SECURITY.template.md)) and private vulnerability reporting enabled (`gh api -X PUT repos/<owner>/<repo>/private-vulnerability-reporting`).
+- With code: [CodeQL](../snippets/codeql.yml), its own workflow, never in `check`.
+- Shipping binaries or images others pull: base images pinned by digest, release provenance via `actions/attest-build-provenance`.
+- Scorecard is not a preset: it mostly repeats pins, `permissions`, zizmor and Renovate; Code-Review and Branch-Protection stay low solo. Run the CLI ad hoc if a score is wanted (expect 6-7/10).
