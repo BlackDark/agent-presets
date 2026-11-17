@@ -2,7 +2,7 @@
 
 Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-11-16. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-11-17. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
@@ -12,6 +12,7 @@ Branches, read only when the task touches them:
 - Browser extension → [browser-extension.md](browser-extension.md)
 - VS Code extension → [vscode-extension.md](vscode-extension.md)
 - User asks to check the watch list, a gate, or to align a project → [watch.md](watch.md)
+- CI path filters, actionlint installation, merge queues → [ci.md](ci.md)
 
 ## Rules
 

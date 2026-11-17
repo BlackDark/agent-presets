@@ -48,8 +48,6 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  # renovate: datasource=github-releases depName=rhysd/actionlint
-  ACTIONLINT_VERSION: "1.7.12"
   # renovate: datasource=npm depName=renovate
   RENOVATE_VERSION: "44.198.0"
 
@@ -78,16 +76,23 @@ jobs:
             { echo "app=true"; echo "lint=true"; } >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          changed=$(git diff --no-renames --name-only -z HEAD^1 HEAD | xargs -0 -n1 printf '%s\n')
-          has() { grep -qE "$1" <<< "$changed" && echo true || echo false; }
-          # One line per area. app: anything that is not docs, CI or Renovate config (mise.toml, lockfiles count),
-          # or this file itself, so a broken `mise run check` step is caught.
-          app=$(has '^\.github/workflows/ci\.yml$')
-          grep -qvE '^(docs/|\.github/|renovate\.json5?$|LICENSE$)|\.md$' <<< "$changed" && app=true
-          {
-            echo "app=$app"
-            echo "lint=$(has '^(\.github/|renovate\.json5?$)')"
-          } >> "$GITHUB_OUTPUT"
+          # NUL-delimited: any filename is classified whole
+          git diff --no-renames --name-only -z HEAD^1 HEAD > "$RUNNER_TEMP/changed-paths"
+          app=false
+          lint=false
+          while IFS= read -r -d '' path; do
+            case "$path" in
+              .github/workflows/ci.yml) app=true ;;
+            esac
+            case "$path" in
+              docs/*|.github/*|renovate.json|renovate.json5|LICENSE|*.md) ;;
+              *) app=true ;;
+            esac
+            case "$path" in
+              .github/*|renovate.json|renovate.json5|mise.toml|.mise.toml|mise.lock|.mise.lock|.config/mise*|mise/*|.mise/*) lint=true ;;
+            esac
+          done < "$RUNNER_TEMP/changed-paths"
+          { echo "app=$app"; echo "lint=$lint"; } >> "$GITHUB_OUTPUT"
 
   app:
     needs: changes
@@ -132,9 +137,11 @@ jobs:
         with:
           ref: ${{ needs.changes.outputs.sha }}
           persist-credentials: false
-      - run: |
-          bash <(curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash") "$ACTIONLINT_VERSION"
-          ./actionlint -color
+      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        with:
+          install_args: actionlint
+          cache_save: false
+      - run: actionlint -color
 
   renovate-config:
     needs: changes
@@ -146,6 +153,10 @@ jobs:
         with:
           ref: ${{ needs.changes.outputs.sha }}
           persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26.13.1
+          package-manager-cache: false
       - run: npx --yes --package "renovate@${RENOVATE_VERSION}" -- renovate-config-validator --strict
 
   zizmor:
