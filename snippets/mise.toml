@@ -1,6 +1,7 @@
 # Repo-local tools (from BlackDark/agent-presets). Replace <pin> with `mise latest <tool>`; never ranges or "latest".
 # Rust is not here: rust-toolchain.toml + rustup.
 [tools]
+actionlint = "1.7.12"
 node = "<pin>"
 pnpm = "<pin>"
 # bun = "<pin>"   # when Bun is the runtime

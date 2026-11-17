@@ -41,6 +41,7 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 | Path | For |
 |---|---|
 | [`stack/core.md`](stack/core.md) | Default stack, tool installation rules (mise, rustup), verify command. Links the branches below |
+| [`stack/ci.md`](stack/ci.md) | CI path filters, actionlint install, merge queues |
 | [`stack/contracts.md`](stack/contracts.md) | Shared types between Go/Rust and TypeScript, OpenAPI |
 | [`stack/embedded-ui.md`](stack/embedded-ui.md) | UIs inside firmware or router images (ESP32, OpenWrt), size budgets |
 | [`stack/svelte.md`](stack/svelte.md) | Svelte projects: the stack mapped to Svelte |

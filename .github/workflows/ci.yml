@@ -56,8 +56,13 @@ jobs:
         with:
           persist-credentials: false
       - name: actionlint
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          bash <(curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash") "$ACTIONLINT_VERSION"
+          archive="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          gh release download "v${ACTIONLINT_VERSION}" --repo rhysd/actionlint --pattern "$archive"
+          gh attestation verify "$archive" --repo rhysd/actionlint
+          tar -xzf "$archive" actionlint
           # snippets call ./.github/workflows/ci.yml, which exists only in the target repo
           ./actionlint -color -ignore "could not read reusable workflow file"
           ./actionlint -color -ignore "could not read reusable workflow file" snippets/*.yml
