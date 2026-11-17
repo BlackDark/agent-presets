@@ -5,6 +5,7 @@
 - The required workflow runs on every PR; `check` aggregates area results (a skipped workflow reports no check).
 - `git diff --no-renames -z`: renames count both sides, filenames stay whole.
 - Map every input of an area: config, lockfiles, build scripts, Dockerfiles, `.dockerignore`, the workflow itself.
+- Any `.github/workflows/*` change runs every area: `ci.yml` may call the others.
 - Run `actionlint` without paths (finds `.yml` and `.yaml`); pass snippets outside `.github/workflows` separately.
 
 ## Tool integrity
@@ -23,6 +24,8 @@
     ./actionlint -color
 ```
 
+- Caches: save only from trusted main runs (`github.workflow == 'CI'`, main, push). Jobs that never run on push (scheduled e2e) also save from `schedule` on main. mise-action keys include `install_args`, so narrow lint installs get their own entry.
+- zizmor: zizmor-action passes `github.token` for online audits; via mise, set `GH_TOKEN`.
 - Attestation proves provenance, not review; keep tool bumps as reviewable PRs.
 - Committed generated output: regenerate, `git add --intent-to-add`, then `git diff --exit-code HEAD -- <output>` (catches deletions and new files).
 - Release jobs: test outputs on push, tag and dispatch; PR-only runs never exercise them.

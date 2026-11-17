@@ -82,7 +82,7 @@ jobs:
           lint=false
           while IFS= read -r -d '' path; do
             case "$path" in
-              .github/workflows/ci.yml) app=true ;;
+              .github/workflows/*) app=true ;; # ci.yml and workflows it calls
             esac
             case "$path" in
               docs/*|.github/*|renovate.json|renovate.json5|LICENSE|*.md) ;;
@@ -104,7 +104,7 @@ jobs:
         with:
           ref: ${{ needs.changes.outputs.sha }}
           persist-credentials: false
-      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7 tools from mise.toml; Rust from rust-toolchain.toml via rustup
+      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9 tools from mise.toml; Rust from rust-toolchain.toml via rustup
         with:
           cache_save: ${{ github.workflow == 'CI' && github.ref == 'refs/heads/main' && github.event_name == 'push' }}
       # TS repos only. Delete the cache steps a repo doesn't need.
@@ -139,8 +139,8 @@ jobs:
           persist-credentials: false
       - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
         with:
-          install_args: actionlint
-          cache_save: false
+          install_args: actionlint # own cache key (mise hashes install_args), so saving is safe
+          cache_save: ${{ github.workflow == 'CI' && github.ref == 'refs/heads/main' && github.event_name == 'push' }}
       - run: actionlint -color
 
   renovate-config:
