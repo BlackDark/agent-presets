@@ -41,7 +41,7 @@ jobs:
             echo "lint=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          changed=$(git diff --name-only HEAD^1 HEAD)
+          changed=$(git diff --no-renames --name-only HEAD^1 HEAD)
           lint=false
           grep -qE '^(\.github/|snippets/|templates/renovate\.template\.json5$)' <<< "$changed" && lint=true
           echo "lint=$lint" >> "$GITHUB_OUTPUT"

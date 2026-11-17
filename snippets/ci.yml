@@ -78,7 +78,7 @@ jobs:
             { echo "app=true"; echo "lint=true"; } >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          changed=$(git diff --name-only HEAD^1 HEAD)
+          changed=$(git diff --no-renames --name-only HEAD^1 HEAD)
           has() { grep -qE "$1" <<< "$changed" && echo true || echo false; }
           # One line per area. app: anything that is not docs, CI or Renovate config (mise.toml, lockfiles count),
           # or this file itself, so a broken `mise run check` step is caught.
