@@ -44,6 +44,6 @@
 Public repos only; private ones lack the Security tab without Advanced Security.
 
 - Every public repo: `SECURITY.md` ([template](../templates/SECURITY.template.md)) and private vulnerability reporting enabled (`gh api -X PUT repos/<owner>/<repo>/private-vulnerability-reporting`).
-- With code: [CodeQL](../snippets/codeql.yml), its own workflow, never in `check`.
+- With code: [CodeQL](../snippets/codeql.yml), its own workflow, never in `check`. Opt-in: ask the user before adding it (extra workflow, Security-tab alerts to triage).
 - Shipping binaries or images others pull: base images pinned by digest, release provenance via `actions/attest-build-provenance`.
 - Scorecard is not a preset: it mostly repeats pins, `permissions`, zizmor and Renovate; Code-Review and Branch-Protection stay low solo. Run the CLI ad hoc if a score is wanted (expect 6-7/10).
