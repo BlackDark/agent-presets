@@ -60,7 +60,7 @@ jobs:
           bash <(curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash") "$ACTIONLINT_VERSION"
           # snippets call ./.github/workflows/ci.yml, which exists only in the target repo
           ./actionlint -color -ignore "could not read reusable workflow file"
-          ./actionlint -color snippets/*.yml
+          ./actionlint -color -ignore "could not read reusable workflow file" snippets/*.yml
 
   renovate-config:
     needs: changes
