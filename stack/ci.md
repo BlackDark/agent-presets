@@ -38,3 +38,12 @@
 - Worth it for busy protected branches; costs CI runs and latency. Low volume: up-to-date branch checks instead.
 - Needs repo admin and an org repo (private: Enterprise Cloud) ([docs](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)).
 - Before enabling: add `merge_group` to every required workflow, run all areas on merge-group commits, test a queued merge and a failing check. Merge-group jobs stay read-only, no cache writes.
+
+## Security scans
+
+Public repos only (Security tab upload needs Advanced Security on private ones). Own workflows, never in `check`.
+
+- `SECURITY.md` ([template](../templates/SECURITY.template.md)) plus private vulnerability reporting: every public repo.
+- [CodeQL](../snippets/codeql.yml): public repos with code. One matrix entry per language plus `actions`.
+- [Scorecard](../snippets/scorecard.yml): optional, for repos others consume. Expect about 6-7/10: Code-Review and Branch-Protection stay low solo; the rest is already covered by pins, `permissions`, zizmor and Renovate. Worth acting on: digest-pinned base images and release provenance (`actions/attest-build-provenance`).
+- No badges by default.
