@@ -10,6 +10,8 @@
 
 ## Tool integrity
 
+- Shortest path: call the reusable [`lint.yml`](../.github/workflows/lint.yml) (actionlint attested, zizmor, Renovate validator) instead of copying the three lint jobs.
+
 - With mise: pin actionlint in `mise.toml`, install via the SHA-pinned mise action ([snippet](../snippets/ci.yml)). Mise config changes select `lint`. Set the action's `version` input if the mise binary must be pinned.
 - Without mise: pin `ACTIONLINT_VERSION` in `env:` with a `# renovate:` annotation; download the release archive, verify it, then extract (actionlint >= 1.7.11, [upstream](https://github.com/rhysd/actionlint/blob/main/docs/install.md#prebuilt-binaries)):
 
