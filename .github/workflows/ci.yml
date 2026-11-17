@@ -41,9 +41,13 @@ jobs:
             echo "lint=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          changed=$(git diff --no-renames --name-only -z HEAD^1 HEAD | xargs -0 -n1 printf '%s\n')
+          git diff --no-renames --name-only -z HEAD^1 HEAD > "$RUNNER_TEMP/changed-paths"
           lint=false
-          grep -qE '^(\.github/|snippets/|templates/renovate\.template\.json5$)' <<< "$changed" && lint=true
+          while IFS= read -r -d '' path; do
+            case "$path" in
+              .github/*|snippets/*|templates/renovate.template.json5) lint=true ;;
+            esac
+          done < "$RUNNER_TEMP/changed-paths"
           echo "lint=$lint" >> "$GITHUB_OUTPUT"
 
   actionlint:
@@ -101,10 +105,18 @@ jobs:
           advanced-security: false
           annotations: true
 
+  # Exercises the reusable workflow consumers call
+  lint-reusable:
+    needs: changes
+    if: needs.changes.outputs.lint == 'true'
+    uses: ./.github/workflows/lint.yml # zizmor: ignore[self-repository] tests this commit's version
+    with:
+      renovate: false # renovate-config job above validates template + own config
+
   # The one required check in the ruleset
   check:
     if: always()
-    needs: [changes, actionlint, renovate-config, zizmor]
+    needs: [changes, actionlint, renovate-config, zizmor, lint-reusable]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:

@@ -57,6 +57,7 @@ Copy snippets/ci.yml from BlackDark/agent-presets and adapt it to this repo.
 | [`snippets/docker-release.yml`](snippets/docker-release.yml) | Tag → multi-arch image on GHCR (native arm64) + GitHub release |
 | [`templates/renovate.template.json5`](templates/renovate.template.json5) | `.github/renovate.json5` for every repo: extends `renovate-base`; adds Node group, majors by hand |
 | [`templates/FUNDING.yml`](templates/FUNDING.yml) | `.github/FUNDING.yml`: Ko-fi and GitHub Sponsors. New repo: add it. Existing repo: ask first |
+| [`.github/workflows/lint.yml`](.github/workflows/lint.yml) | Reusable lint area (actionlint, zizmor, Renovate validator); call it SHA-pinned from `ci.yml` |
 | [`snippets/mise.toml`](snippets/mise.toml), [`rust-toolchain.toml`](snippets/rust-toolchain.toml) | Pinned tools |
 | [`docs/agents/`](docs/agents/) | This repo's agent-skills config: issue tracker, triage labels, domain docs |
 | [`skills/write-for-agents`](skills/write-for-agents/SKILL.md) | How to write AGENTS.md, skills and prompts that stay small and predictable |
