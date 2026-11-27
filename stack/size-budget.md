@@ -7,17 +7,32 @@ A budget exists only when the project's `AGENTS.md` records it. Size is a design
 - No recorded budget: ship the stack and its libraries; size is no reason for own code or a trimmed component.
 - Budget wanted (device UI, extension popup or content script): ask the user for the real headroom. Record each limit as `limit: reason` in `AGENTS.md`.
 - Two measures, each its own limit; record only the ones that apply:
-  - **flash**: every file in the deployed UI directory as stored on the device (the `.gz` when the device stores those). Remedies: raise the limit, drop the library.
-  - **first load**: files the start page loads, gzip. Remedies: raise the limit, lazy-load the route, drop the library.
+  - **flash**: every file the device stores, in its stored form (the `.gz` in place of its original, images as they are). Remedies: raise the limit, drop the library.
+  - **first load**: every response the browser fetches for the start page (HTML, CSS, entry and preloaded chunks), gzip. Remedies: raise the limit, lazy-load the route, drop the library.
 - Limit: set from the headroom with room for growth, not from a default.
-- Check: `size-limit` + `@size-limit/file` in `mise run check`, config `.size-limit.json`. Output dir: `build/` for SvelteKit `adapter-static` (or its `pages`), `dist/` for plain Vite.
+- Output dir: `build/` for SvelteKit `adapter-static` (or its `pages`), `dist/` for plain Vite. Both checks run in `mise run check`.
+- Flash check: `size-limit` + `@size-limit/file`, config `.size-limit.json`. List what ships; exclude originals the device replaces by `.gz`:
   ```json
-  [
-    { "name": "flash", "path": "build/**/*.gz", "limit": "<recorded> KB", "brotli": false },
-    { "name": "first load", "path": ["build/index.html", "build/_app/immutable/entry/*.js"], "limit": "<recorded> KB", "gzip": true }
-  ]
+  [{ "name": "flash", "path": ["build/**", "!build/**/*.{html,js,css,json,svg}"], "limit": "<recorded> KB", "brotli": false }]
   ```
-  Device without `.gz` files: flash path `build/**`. Size-limit compresses with brotli unless `brotli: false` or `gzip: true` is set.
+  Device stores no `.gz`: path `build/**`. Size-limit compresses with brotli unless `brotli: false` is set.
+- First-load check: a Playwright test against `vite preview`. A file glob misses preloaded chunks and route CSS; the browser does not.
+  ```ts
+  import { gzipSync } from 'node:zlib';
+  import { expect, test } from '@playwright/test';
+
+  const LIMIT_KB = 0; // recorded limit
+
+  test('first load fits the budget', async ({ page }) => {
+    const sizes = new Map<string, number>();
+    page.on('response', async (response) => {
+      sizes.set(new URL(response.url()).pathname, gzipSync(await response.body()).length);
+    });
+    await page.goto('/', { waitUntil: 'networkidle' });
+    const total = [...sizes.values()].reduce((sum, bytes) => sum + bytes, 0);
+    expect(total).toBeLessThanOrEqual(LIMIT_KB * 1024);
+  });
+  ```
 - Budget hit: run the bundle report, then propose a remedy for the measure that failed. Forking, trimming or rewriting a library to fit needs the user's yes, recorded in an ADR or `AGENTS.md`.
 
 ## Bundle report
