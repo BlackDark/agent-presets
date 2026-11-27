@@ -16,20 +16,21 @@ A budget exists only when the project's `AGENTS.md` records it. Size is a design
   [{ "name": "flash", "path": ["build/**", "!build/**/*.{html,js,css,json,svg}"], "limit": "<recorded> KB", "brotli": false }]
   ```
   Device stores no `.gz`: path `build/**`. Size-limit compresses with brotli unless `brotli: false` is set.
-- First-load check: a Playwright test against `vite preview`. A file glob misses preloaded chunks and route CSS; the browser does not.
+- First-load check: a Playwright test against `vite preview`. A file glob misses preloaded chunks and route CSS; the browser does not. Redirects carry no body and their target is counted; any other unreadable body fails the test.
   ```ts
   import { gzipSync } from 'node:zlib';
-  import { expect, test } from '@playwright/test';
+  import { expect, type Response, test } from '@playwright/test';
 
   const LIMIT_KB = 0; // recorded limit
 
   test('first load fits the budget', async ({ page }) => {
-    const sizes: Promise<number>[] = [];
+    const responses: Response[] = [];
     page.on('response', (response) => {
-      sizes.push(response.body().then((body) => gzipSync(body).length, () => 0));
+      if (response.status() < 300 || response.status() >= 400) responses.push(response);
     });
     await page.goto('/', { waitUntil: 'networkidle' });
-    const total = (await Promise.all(sizes)).reduce((sum, bytes) => sum + bytes, 0);
+    const sizes = await Promise.all(responses.map(async (response) => gzipSync(await response.body()).length));
+    const total = sizes.reduce((sum, bytes) => sum + bytes, 0);
     expect(total).toBeLessThanOrEqual(LIMIT_KB * 1024);
   });
   ```
