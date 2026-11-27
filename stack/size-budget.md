@@ -24,12 +24,12 @@ A budget exists only when the project's `AGENTS.md` records it. Size is a design
   const LIMIT_KB = 0; // recorded limit
 
   test('first load fits the budget', async ({ page }) => {
-    const sizes = new Map<string, number>();
-    page.on('response', async (response) => {
-      sizes.set(new URL(response.url()).pathname, gzipSync(await response.body()).length);
+    const sizes: Promise<number>[] = [];
+    page.on('response', (response) => {
+      sizes.push(response.body().then((body) => gzipSync(body).length, () => 0));
     });
     await page.goto('/', { waitUntil: 'networkidle' });
-    const total = [...sizes.values()].reduce((sum, bytes) => sum + bytes, 0);
+    const total = (await Promise.all(sizes)).reduce((sum, bytes) => sum + bytes, 0);
     expect(total).toBeLessThanOrEqual(LIMIT_KB * 1024);
   });
   ```
