@@ -7,11 +7,11 @@ Report findings to the user; the stack changes only on their decision.
 New projects (general and embedded UI) use Solid only when every box is checked. Existing Solid 1.x code stays. Checked 2026-11-27.
 
 - [x] `solid-js@2` stable (2.0.0, 2026-11-17)
-- [ ] Headless primitives stable on Solid 2: Kobalte 2 is alpha; UI SDK (`@ui-sdk/solid`) is beta
+- [ ] Headless primitives stable on Solid 2: Kobalte 2 is alpha ([kobalte#653](https://github.com/kobaltedev/kobalte/issues/653), branch `solid2`); UI SDK (`@ui-sdk/solid`) is beta
 - [ ] A shadcn-style Solid port on Solid 2: Solid UI v2 targets Solid 2 on UI SDK, marked beta by its README
-- [ ] `@solidjs/router` 2 stable (2.0.1); Solid Testing Library 1.0 is RC; `lucide-solid` still peers Solid 1 (Solid UI inlines SVG icons)
-- [ ] TanStack Query, Form, Table on Solid 2: Query 6 is RC; Form and Table stable peer Solid 1
-- [ ] Full-stack only: TanStack Router/Start 2 (Solid 2) is RC
+- [ ] `@solidjs/router` 2 stable (2.0.1); icons: `@lucide/solid` peers Solid 2 (`lucide-solid` stays on Solid 1); Solid Testing Library 1.0 is RC (branch `next`)
+- [ ] TanStack Query, Form, Table on Solid 2: Query 6 is RC (branch `solid-query-v6-pre`); Form v2 ([form#2464](https://github.com/TanStack/form/pull/2464)) and Table v10 ([table#6648](https://github.com/TanStack/table/pull/6648)) are open PRs
+- [ ] Full-stack only: TanStack Router/Start 2 (Solid 2) is RC (branch `solid-router-v2-pre`)
 - [ ] Extensions only: `@crxjs/vite-plugin` + `@solidjs/vite-plugin` 3 (Solid 2, renamed from `vite-plugin-solid`) build a working extension
 
 ## Watch list
@@ -20,7 +20,7 @@ New projects (general and embedded UI) use Solid only when every box is checked.
 |---|---|---|
 | Solid primitives | `npm view @kobalte/core dist-tags`, `npm view @ui-sdk/solid dist-tags` | a non-prerelease `latest` peers `solid-js@^2` |
 | Solid UI | [README](https://github.com/stefan-karger/solid-ui) | v2 drops the beta warning |
-| Solid libraries | `npm view <pkg> peerDependencies` for `@tanstack/solid-{query,form,table,router}`, `@solidjs/testing-library`, `lucide-solid` | `latest` peers `solid-js@^2` |
+| Solid libraries | `npm view <pkg> peerDependencies` for `@tanstack/solid-{query,form,table,router}`, `@solidjs/testing-library` | `latest` peers `solid-js@^2` |
 | Drizzle 1.0 | `npm view drizzle-orm dist-tags` | `latest` is 1.x (upgrade on a branch; migration layout changes) |
 | tauri-specta | `cargo search tauri-specta` | non-RC 2.x |
 | Zensical | release notes | parity with Material for MkDocs (maintenance ends 2027-05-05) |
