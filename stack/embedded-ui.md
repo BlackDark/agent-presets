@@ -1,25 +1,30 @@
 # Tech stack: embedded UI
 
-A web UI that ships inside firmware or a router image (ESP32, OpenWrt), or any UI with a hard size budget.
+A web UI that ships inside firmware or a router image (ESP32, OpenWrt) and is served by the device.
+
+## Ask first
+
+Device UIs differ by orders of magnitude (an ESP32 with 1 MB flash vs a router with 60 MB overlay). Before choosing a framework, ask the user and record the answers in `AGENTS.md`:
+
+1. Free space for the UI and typical link (phone over hotel WiFi, LAN only).
+2. Strict mode or not:
+   - **Strict**: a size budget from [size-budget.md](size-budget.md); every dependency weighed against it.
+   - **Relaxed** (default when the device has megabytes free): the normal stack for the chosen framework; no budget; only the device rules below apply.
 
 ## Framework, in order
 
-1. **Svelte 5** + plain Vite, static SPA: [svelte.md](svelte.md).
-2. **Solid**, only after the Solid gate in [watch.md](watch.md).
-3. **React**, only when the UI shares code with a React app; propose it with the size cost first.
-4. **Vanilla TS**, only for budgets under ~15 KB gzip or pages inside LuCI (use LuCI's JS view API as a `luci-app-*`).
+1. **Svelte 5** static SPA: [svelte.md](svelte.md), including its libraries (TanStack Query/Form/Table, shadcn-svelte).
+2. **React**: when the UI shares code with a React app, or the user prefers it and the device has the room; [core.md](core.md) frontend with TanStack Router in hash mode.
+3. **Solid**, only after the Solid gate in [watch.md](watch.md).
+4. **Vanilla TS**, only for strict budgets under ~15 KB gzip or pages inside LuCI (use LuCI's JS view API as a `luci-app-*`).
 
 Choosing anything but the first: propose to the user with the reason, record it in `AGENTS.md`.
 
-## Rules
+## Device rules
 
-- Size budget in `mise run check`: `size-limit` with `@size-limit/file`, config `.size-limit.json`. Default 50 KB gzip for the whole UI; set the real one in `AGENTS.md`.
-  ```json
-  [{ "path": "dist/**/*.{html,js,css,svg}", "limit": "50 KB", "gzip": true }]
-  ```
-- Validation: size-budget rule in [core.md](core.md) (Zod Mini, Valibot for tiny budgets).
-- Only the shadcn-svelte components the UI uses. A custom component in its place still follows the component rule in [svelte.md](svelte.md). Charts as own SVG; no icon font, only imported icons.
-- No CDN or external fonts: the device is often offline. System font stack.
-- Ship pre-compressed `*.gz`; the device server sends `Content-Encoding: gzip`. Flat file names, no deep routes: hash routing or one page.
-- The API lives in the firmware (C/C++, Go, Rust); define it once ([contracts.md](contracts.md)) and keep the UI a thin client.
+- No CDN or external fonts: the device is often offline. System font stack; icons imported per icon, no icon font.
+- Ship pre-compressed `*.gz`; the device server sends `Content-Encoding: gzip`. Hash routing or one page: the device server has no history fallback.
+- Flash file systems with name limits (ESP32 SPIFFS: `CONFIG_SPIFFS_OBJ_NAME_LEN`, default 32 bytes including the NUL; LittleFS: `LFS_NAME_MAX`, default 255): flat file names, plain Vite with `build.assetsDir: ''`. Every built name, `.gz` included, fits the limit: shorten `build.rolldownOptions.output.{entry,chunk,asset}FileNames` and check the file list in `mise run check`.
+- The API lives in the firmware (C/C++, Go, Rust); define it once ([contracts.md](contracts.md)). Business rules stay on the device; UI concerns (caching, polling, forms, tables) use the frontend libraries.
+- Charts: chart rule in [core.md](core.md).
 - Dev: Vite dev server proxies `/api` to the device or to a mock.

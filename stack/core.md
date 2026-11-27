@@ -2,11 +2,12 @@
 
 Defaults for new projects and new parts. Take the first choice. Anything else (a listed alternative included): propose it to the user with the reason before building on it, then record it in the project's `AGENTS.md`. Existing code stays on its stack unless the user asks to migrate.
 
-Reviewed 2026-11-17. **(watch)** = likely to change, see [watch.md](watch.md).
+Reviewed 2026-11-27. **(watch)** = likely to change, see [watch.md](watch.md).
 
 Branches, read only when the task touches them:
 - Types shared between Go/Rust and TS, OpenAPI, Tauri bindings → [contracts.md](contracts.md)
-- UI inside firmware or a router image, or with a hard size budget → [embedded-ui.md](embedded-ui.md)
+- UI served by a device (firmware, router image) → [embedded-ui.md](embedded-ui.md)
+- Size budget wanted or recorded, bundle size questions → [size-budget.md](size-budget.md)
 - Svelte project (chosen or existing) → [svelte.md](svelte.md)
 - Desktop app (Tauri) → [desktop.md](desktop.md)
 - Browser extension → [browser-extension.md](browser-extension.md)
@@ -21,9 +22,10 @@ Branches, read only when the task touches them:
   - Rust: `cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test`
   - Go: `files=$(gofmt -l .) && test -z "$files" && go vet ./... && go test ./...` (a bare `$(gofmt -l .)` hides gofmt errors)
 - Green `mise run check` before every commit.
-- New dependency outside this stack: ask first, state why in the commit message.
+- Library first: generic problems (server state, polling, retries, routing, forms, tables, dates, parsing, persistence, rate limiting, crypto) use the stack's library, else an established one. Stack libraries: use without asking. Others: propose name, size, last release; state why in the commit message.
+- Own code where a library exists: ask the user first, naming the library and why it does not fit; record `own <X> instead of <lib>: reason` in the project's `AGENTS.md`. Domain logic and thin glue (<~50 lines) need no ask.
 - Generated files (API clients, bindings, compiled i18n): regenerate, never hand-edit; CI fails on diff.
-- Validate every boundary at runtime (requests, config, files, env, generated API responses): Zod.
+- Validate every boundary at runtime (requests, config, files, env, generated API responses): Zod. Same-repo generated client: see [contracts.md](contracts.md).
 - Every repo has `.github/renovate.json5` from [templates/renovate.template.json5](../templates/renovate.template.json5).
 - No secrets in the repo. No telemetry or tracking unless asked.
 
@@ -43,7 +45,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 
 - Framework: **React**. Alternative: **Svelte 5** when it fits clearly better (small app, size matters, no TanStack Start needed): propose first. Solid only after the Solid gate in [watch.md](watch.md).
 - Full-stack/SSR: **TanStack Start**; server functions instead of a separate API when the app owns its backend. Pin the minor.
-- Routing **TanStack Router** (file-based). Server state **TanStack Query**. Tables/lists **TanStack Table** + **TanStack Virtual**.
+- Routing **TanStack Router** (file-based). Static SPA on a host without history fallback (device, file share): `createHashHistory()`. Server state **TanStack Query**. Tables/lists **TanStack Table** + **TanStack Virtual**.
 - Forms: controlled inputs; **TanStack Form** once a form grows; Zod schemas.
 - Components: **shadcn/ui** copied into the repo, Tailwind + `class-variance-authority`. Add and use the registry component that covers the UI. A custom component in its place: a comment on that file names the official component and why it does not fit. Primitives: **Base UI** for new projects (`shadcn init -b base`); Radix projects stay Radix. One primitive lib per repo, see `components.json` (Radix `asChild` vs Base UI `render`).
 - CSS: **Tailwind CSS 4**, CSS-first config, tokens as CSS variables, light + dark.
@@ -59,7 +61,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - TS HTTP: TanStack Start server routes; **Hono** for a standalone API.
 - Rust: **axum** on **tokio**, `tracing`, `serde`, `reqwest`, `thiserror` (libs), `anyhow` (bins).
 - Go: stdlib `net/http` router; a framework only for a reason.
-- Validation: **Zod 4**. Size budget (embedded UI, extension popup/content script), any framework → **Zod Mini** (`zod/mini`): same schemas, types, errors. Budget under ~30 KB, or no Zod anywhere in the project → **Valibot**. Form schema min+gzip (2026-10): Zod 26 KB, Zod Mini 6 KB, Valibot 1.5 KB.
+- Validation: **Zod 4**. Recorded size budget ([size-budget.md](size-budget.md)), any framework → **Zod Mini** (`zod/mini`): same checks and types, functional API (`z.optional(s)`, `.check(z.minLength(1))` instead of methods), no default locale (load `z.config(z.locales.en())` or messages read `Invalid input`). Budget under ~30 KB, or no Zod anywhere in the project → **Valibot**. Form schema min+gzip (2026-10): Zod 26 KB, Zod Mini 6 KB, Valibot 1.5 KB.
 - DB: **SQLite** for one server, **PostgreSQL** when shared.
 - SQL: **Drizzle** (pin 0.45 while 1.0 is RC **(watch)**), **sqlx** for Rust. Migrations checked in and embedded in the binary.
 - Auth: single admin → own login (argon2id, session cookie, CSRF) + **SimpleWebAuthn** passkeys. Multi-user → **Better Auth**, kept current.

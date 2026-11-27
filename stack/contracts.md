@@ -10,4 +10,4 @@
 Rules:
 - One source of truth per type; the other side is generated.
 - Generated output is committed or built in CI, with a "regenerate, fail on diff" step.
-- Generated types don't validate at runtime: parse responses with Zod.
+- Generated types don't validate at runtime: parse responses with Zod. Exception: client and server in one repo, generated from the same spec, with the fail-on-diff step, shipped as one unit (one binary or image serves both), and the server rejects requests from another build (client sends its build version, server answers 409, the UI reloads), so an open tab never parses a newer server's responses; record it in `AGENTS.md`. Otherwise keep parsing.
