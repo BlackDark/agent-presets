@@ -61,7 +61,7 @@ Starters: [snippets/mise.toml](../snippets/mise.toml), [snippets/rust-toolchain.
 - TS HTTP: TanStack Start server routes; **Hono** for a standalone API.
 - Rust: **axum** on **tokio**, `tracing`, `serde`, `reqwest`, `thiserror` (libs), `anyhow` (bins).
 - Go: stdlib `net/http` router; a framework only for a reason.
-- Validation: **Zod 4**. Recorded size budget ([size-budget.md](size-budget.md)), any framework → **Zod Mini** (`zod/mini`): same schemas, types, errors. Budget under ~30 KB, or no Zod anywhere in the project → **Valibot**. Form schema min+gzip (2026-10): Zod 26 KB, Zod Mini 6 KB, Valibot 1.5 KB.
+- Validation: **Zod 4**. Recorded size budget ([size-budget.md](size-budget.md)), any framework → **Zod Mini** (`zod/mini`): same checks and types, functional API (`z.optional(s)`, `.check(z.minLength(1))` instead of methods), no default locale (load `z.config(z.locales.en())` or messages read `Invalid input`). Budget under ~30 KB, or no Zod anywhere in the project → **Valibot**. Form schema min+gzip (2026-10): Zod 26 KB, Zod Mini 6 KB, Valibot 1.5 KB.
 - DB: **SQLite** for one server, **PostgreSQL** when shared.
 - SQL: **Drizzle** (pin 0.45 while 1.0 is RC **(watch)**), **sqlx** for Rust. Migrations checked in and embedded in the binary.
 - Auth: single admin → own login (argon2id, session cookie, CSRF) + **SimpleWebAuthn** passkeys. Multi-user → **Better Auth**, kept current.

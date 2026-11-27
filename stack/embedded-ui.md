@@ -24,7 +24,7 @@ Choosing anything but the first: propose to the user with the reason, record it 
 
 - No CDN or external fonts: the device is often offline. System font stack; icons imported per icon, no icon font.
 - Ship pre-compressed `*.gz`; the device server sends `Content-Encoding: gzip`. Hash routing or one page: the device server has no history fallback.
-- Flash file systems with path limits (ESP32 SPIFFS/LittleFS): flat file names, plain Vite with `build.assetsDir: ''`.
+- Flash file systems with name limits (ESP32 SPIFFS: `CONFIG_SPIFFS_OBJ_NAME_LEN`, default 32 bytes including the NUL; LittleFS: `LFS_NAME_MAX`, default 255): flat file names, plain Vite with `build.assetsDir: ''`. Every built name, `.gz` included, fits the limit: shorten `build.rolldownOptions.output.{entry,chunk,asset}FileNames` and check the file list in `mise run check`.
 - The API lives in the firmware (C/C++, Go, Rust); define it once ([contracts.md](contracts.md)). Business rules stay on the device; UI concerns (caching, polling, forms, tables) use the frontend libraries.
 - Charts: chart rule in [core.md](core.md).
 - Dev: Vite dev server proxies `/api` to the device or to a mock.
