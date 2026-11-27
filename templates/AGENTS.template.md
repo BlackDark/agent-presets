@@ -20,6 +20,8 @@ New slow step → cache it (main saves, PRs restore, key on the lockfile), skip 
 
 Follows https://github.com/BlackDark/agent-presets/blob/main/stack/core.md.
 Deviations: <choice: reason>.
+Own code instead of a library: <none | X instead of lib: reason>.
+Size budget: <none | limit: reason (headroom)>.
 
 ## Map
 

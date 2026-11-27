@@ -36,6 +36,8 @@ Apply only while touching that part anyway:
 - ESLint/Prettier → Biome; delete their configs.
 - Own CSS → Tailwind on UI rework.
 - Large chart library → uPlot or own SVG.
+- Own fetch/poll/refresh state → TanStack Query. Own component where the shadcn registry has one → registry component.
+- Size limit without a recorded reason → ask for the headroom ([size-budget.md](size-budget.md)).
 - npm → pnpm (VS Code extensions may stay).
 - Plain TS/esbuild extension → React + Vite + `@crxjs/vite-plugin`.
 - VS Code extension built by `tsc` only → Vite bundle.
